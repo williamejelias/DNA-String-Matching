@@ -33,32 +33,31 @@ def score(str1, str2):
     current_score = 0
     for j in range(min(len(str1), len(str2))):
         if str1[j] == str2[j]:
-            current_score = current_score + 3  # match
-        if str1[j] == "-" or str2[j] == "-":
-            current_score = current_score - 2  # gap
-        if str1[j] != str2[j]:
-            current_score = current_score - 1  # mis-match
+            current_score += 3  # match
+        elif str1[j] == "-" or str2[j] == "-":
+            current_score -= 2  # gap
+        elif str1[j] != str2[j]:
+            current_score -= 1  # mis-match
     return current_score
 
 
 def best_alignment():
     global best_score
-    best_score = score(alignments_list[0], alignments_list[1])
-    global best_alignment
-    best_alignment = ""  # best alignment is initially an empty string
+    best_score = score(alignments_list[0][0], alignments_list[0][1])
+    global best_alignment_
+    best_alignment_ = (alignments_list[0][0], alignments_list[0][1])
     for i in alignments_list:  # for each pair of strings making an alignment
         string1 = i[0]
         string2 = i[1]
         alignment_score = score(string1, string2)
-        if alignment_score > best_score:  # update best score and best alignment
+        if alignment_score >= best_score:  # update best score and best alignment
             best_score = alignment_score
-            best_alignment = i
-
+            best_alignment_ = i
 
 # ------------------------------------------------------------
 
 
-# DO NOT EDIT ------------------------------------------------
+# ------------------------------------------------------------
 # Given an alignment, which is two strings, display it
 
 def display_alignment(alignment):
@@ -79,7 +78,7 @@ def display_alignment(alignment):
 # ------------------------------------------------------------
 
 
-# DO NOT EDIT ------------------------------------------------
+# ------------------------------------------------------------
 # This opens the files, loads the sequences and starts the timer
 file1 = open(sys.argv[1], 'r')
 seq1 = file1.read()
@@ -92,7 +91,8 @@ start = time.time()
 # -------------------------------------------------------------
 
 
-# YOUR CODE GOES HERE ---------------------------------------- The sequences are contained in the variables seq1 and
+# -------------------------------------------------------------
+# The sequences are contained in the variables seq1 and
 # seq2 from the code above. Call the function to create the list of alignments Call the function to score each of the
 # alignments. To work with the printing functions below your list of alignments should be called alignments_list. The
 # best alignment should be called best_alignment and its score should be called best_score.
@@ -104,7 +104,7 @@ best_alignment()
 # -------------------------------------------------------------
 
 
-# DO NOT EDIT ------------------------------------------------
+# ------------------------------------------------------------
 # This calculates the time taken and will print out useful information 
 stop = time.time()
 time_taken = stop - start
@@ -113,6 +113,7 @@ time_taken = stop - start
 print('Alignments generated: ' + str(len(alignments_list)))
 print('Time taken: ' + str(time_taken))
 print('Best (score ' + str(best_score) + '):')
-display_alignment(best_alignment)
+print("Best alignment: ", best_alignment_)
+display_alignment(best_alignment_)
 
 # -------------------------------------------------------------
